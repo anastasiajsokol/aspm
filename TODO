@@ -1,0 +1,11 @@
+(A) 2024-09-05 @aspm create overlay mount
+(B) 2024-09-05 @aspm chroot into overlay mount
+(B) 2024-09-05 @aspm add interactive command shell
+(C) 2024-09-05 @aspm add support for build and install scripts
+(C) 2024-09-05 @aspm create package binary
+(D) 2024-09-05 @aspm support package binary system installation
+(D) 2024-09-05 @aspm support package binary system uninstall
+(Y) 2024-09-05 @aspm allow the user to specify what shell they want to use
+(Z) 2024-09-05 @build create configuration step to specify prefix, currently partially broken
+(Z) 2024-09-05 @build add installation step (specify install prefix)
+(Z) 2024-09-05 @lib create shared binary for libaspm
