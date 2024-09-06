@@ -8,12 +8,23 @@ using aspm::Logger, aspm::LogLevel;
 void Logger::log(LogLevel level, const char* caller, const char *message){
     // only print to console if we are within the baseline
     if(level >= baseline){
+        // log level strings
+        const char *levelstr[] = {
+            " [DEBUG] ",
+            " ",
+            " [NOTICE] ",
+            " [WARNING] ",
+            " [ERROR] ",
+            " [ALERT] ",
+            " [EMERGENCY] ",
+        };
+
         // pick stdout or stderr depending on severity
-        FILE *console = (level <= LogLevel::Notice) ? stdout : stderr;
+        FILE *console = (level == LogLevel::Verbose) ? stdout : stderr;
 
         // print log output
         //  - there is no real benefit in checking if this failed
-        std::fprintf(console, "aspm: (%s) %s\n", caller, message);
+        std::fprintf(console, "aspm:%s(%s) %s\n", levelstr[static_cast<unsigned>(level)], caller, message);
     }
     
     if(log_to_system){
