@@ -8,4 +8,4 @@
 (Y) 2024-09-05 @aspm allow the user to specify what shell they want to use
 (Z) 2024-09-05 @build create configuration step to specify prefix, currently partially broken
 (Z) 2024-09-05 @build add installation step (specify install prefix)
-(Z) 2024-09-05 @lib create shared binary for libaspm
+(Z) 2024-09-05 @lib create shared binary for libaspm with c bindings
