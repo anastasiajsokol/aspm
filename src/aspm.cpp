@@ -1,8 +1,10 @@
 #include <cstdlib>
 
-#include "lib/test.hpp"
+#include "lib/logger.hpp"
 
 int main(void){
-    test();
+    aspm::Logger::set_log_display_level(aspm::LogLevel::Verbose);
+    aspm::Logger::log(aspm::LogLevel::Verbose, "main", "Hello World!");
+
     return EXIT_SUCCESS;
 }
