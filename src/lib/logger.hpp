@@ -1,5 +1,5 @@
-#ifndef ASPM_LIB_LOG_HPP
-#define ASPM_LIB_LOG_HPP
+#ifndef ASPM_LIB_LOGGER_HPP
+#define ASPM_LIB_LOGGER_HPP
 
 #include <cstddef>
 #include <string>
