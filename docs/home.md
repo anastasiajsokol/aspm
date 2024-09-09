@@ -24,7 +24,7 @@ The `config.toml` file has varius configuration options that are as-of-yet not s
 
 The `aspm.strip` is just the stripped package file for `aspm`. This file only exists if `aspm` is bootstrapped.
 
-The `LISCENSE` file has a copy of the GNU v3 liscense.
+The `LISCENSE` file has a copy of the GPL-3.0 license.
 
 The `VERSION` file holds the output of the command `aspm version`.
 
