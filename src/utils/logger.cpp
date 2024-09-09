@@ -3,7 +3,7 @@
 #include <syslog.h>
 #include <cstdio>
 
-using aspm::Logger, aspm::LogLevel;
+using utils::Logger, utils::LogLevel;
 
 void Logger::log(LogLevel level, const char* caller, const char *message){
     // only print to console if we are within the baseline

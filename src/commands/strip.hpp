@@ -1,13 +1,13 @@
 #ifndef ASPM_COMMANDS_INSTALL_HPP
 #define ASPM_COMMANDS_INSTALL_HPP
 
-#include "directory.hpp"
+#include "../utils/directory.hpp"
 
 namespace aspm {
 
 void strip(
-    path package,
-    path out
+    utils::path package,
+    utils::path out
 );
 
 };

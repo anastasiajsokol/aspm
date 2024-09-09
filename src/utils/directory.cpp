@@ -8,9 +8,9 @@
 
 #include "logger.hpp"
 
-using aspm::path;
+using utils::path;
 
-std::optional<path> aspm::create_temporary_directory(path base){
+std::optional<path> utils::create_temporary_directory(path base){
     // create directory template in the format wanted by mkdtemp
     base.append("aspm.XXXXXX");
     std::string templatestring = base.string();
@@ -21,7 +21,7 @@ std::optional<path> aspm::create_temporary_directory(path base){
     strcpy(directory, templatestring.c_str());
 
     if(mkdtemp(directory) == NULL){
-        aspm::Logger::log(aspm::LogLevel::Error, "tmpdir", std::strerror(errno));
+        utils::Logger::log(utils::LogLevel::Error, "tmpdir", std::strerror(errno));
         return {};
     }
     
@@ -30,7 +30,7 @@ std::optional<path> aspm::create_temporary_directory(path base){
     return result;
 }
 
-int aspm::delete_directory(path directory){
+int utils::delete_directory(path directory){
     const auto update_permissions = [](const char *fpath, const struct stat*, int, FTW*) -> int {
         // take ownership of the file
         if(chown(fpath, getuid(), getgid())){
@@ -41,7 +41,7 @@ int aspm::delete_directory(path directory){
 
         // change the permissions to allow read/write from owner
         if(chmod(fpath, S_IRUSR | S_IRUSR)){
-            aspm::Logger::log(aspm::LogLevel::Error, "deldir", std::strerror(errno));
+            utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
         }
 
         // note: returning FTW_CONTINUE is not really needed unless FTW_ACTIONRETVAL is set
@@ -55,7 +55,7 @@ int aspm::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(unlink(fpath)){
-                    aspm::Logger::log(aspm::LogLevel::Error, "deldir", std::strerror(errno));
+                    utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
                 }
 
                 break;
@@ -65,7 +65,7 @@ int aspm::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(rmdir(fpath)){
-                    aspm::Logger::log(aspm::LogLevel::Error, "deldir", std::strerror(errno));
+                    utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
                 }
 
                 break;

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <string>
 
-namespace aspm {
+namespace utils {
 
 enum class LogLevel {
     Debug,

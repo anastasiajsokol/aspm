@@ -4,15 +4,15 @@
 #include <optional>
 #include <string>
 
-#include "directory.hpp"
+#include "../utils/directory.hpp"
 
 namespace aspm {
 
 void build(
-    path root,
-    path shell,
-    path out,
-    std::optional<path> installer,
+    utils::path root,
+    utils::path shell,
+    utils::path out,
+    std::optional<utils::path> installer,
     std::string name,
     std::string version,
     bool allow_broken

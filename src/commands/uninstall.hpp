@@ -1,13 +1,13 @@
 #ifndef ASPM_COMMANDS_UNINSTALL_HPP
 #define ASPM_COMMANDS_UNINSTALL_HPP
 
-#include "directory.hpp"
+#include "../utils/directory.hpp"
 
 namespace aspm {
 
 void uninstall(
-    path root,
-    path package,
+    utils::path root,
+    utils::path package,
     bool ignore_hash,
     bool strict,
     bool safe
