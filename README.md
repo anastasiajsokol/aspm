@@ -35,7 +35,7 @@ Build the tar package into an ASPM binary package which is required for the othe
 
 `strip` binpackage
 
-Remove the actual file content and only stores the file paths and hashes of every file in the package. This is useful for uninstalling the package later, so that you do not have to store two copies of the binaries (one installed, one in the binpackage). When you install a package a stripped package file will be saved to the ASPM directory, `PREFIX/etc/aspm`, which is used for the `uninstall packagename` command variation (`PREFIX` must have been set on the configuration step of building `aspm` itself).
+Remove the actual file content and only stores the file paths and hashes of every file in the package. This is useful for uninstalling the package later, so that you do not have to store two copies of the binaries (one installed, one in the binpackage). When you install a package a stripped package file will be saved to the ASPM directory, `PREFIX/etc/aspm`, which is used for the `uninstall packagename` command variation (`PREFIX` must have been set on the configuration step of building `aspm` itself). By default the file will be formed by appending `.stripped` to the binpackage path, to specify an alternative name use the `-o path` option.
 
 `install` binpackage
 
