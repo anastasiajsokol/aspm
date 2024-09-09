@@ -1,5 +1,5 @@
-#ifndef ASPM_LIB_INSTALL_HPP
-#define ASPM_LIB_INSTALL_HPP
+#ifndef ASPM_COMMANDS_INSTALL_HPP
+#define ASPM_COMMANDS_INSTALL_HPP
 
 #include "directory.hpp"
 

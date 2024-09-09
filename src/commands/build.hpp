@@ -1,5 +1,5 @@
-#ifndef ASPM_LIB_BUILD_HPP
-#define ASPM_LIB_BUILD_HPP
+#ifndef ASPM_COMMANDS_BUILD_HPP
+#define ASPM_COMMANDS_BUILD_HPP
 
 #include <optional>
 #include <string>

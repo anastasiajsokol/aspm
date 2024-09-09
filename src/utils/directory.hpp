@@ -1,5 +1,5 @@
-#ifndef ASPM_LIB_TMPDIR_HPP
-#define ASPM_LIB_TMPDIR_HPP
+#ifndef ASPM_UTILS_DIRECTORY_HPP
+#define ASPM_UTILS_DIRECTORY_HPP
 
 #include <filesystem>
 #include <optional>

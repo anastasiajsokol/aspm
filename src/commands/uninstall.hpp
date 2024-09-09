@@ -1,5 +1,5 @@
-#ifndef ASPM_LIB_UNINSTALL_HPP
-#define ASPM_LIB_UNINSTALL_HPP
+#ifndef ASPM_COMMANDS_UNINSTALL_HPP
+#define ASPM_COMMANDS_UNINSTALL_HPP
 
 #include "directory.hpp"
 
