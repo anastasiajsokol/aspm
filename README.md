@@ -25,6 +25,14 @@ If "safe", perform all commands inside of a temporary overlay directory before c
 
 ## Commands
 
+`version` | `--version`
+
+Displays information about the current version of `aspm`. It is recommended to use the `version` variation, however `--version` is allowed for compatability with other programs.
+
+`help` | `--help` | `-h`
+
+Displays a slightly modified version of this markdown file.
+
 `list`
 
 List all of the installed packages on the current system. If the `--root path` option is set, or the overriding ASPMROOT environment variable, then the root path will be treated as the system root.
