@@ -1,6 +1,3 @@
-#include <cstdlib>
-#include <cstdio>
-
 #include "utils/logger.hpp"
 #include "utils/exit.hpp"
 
