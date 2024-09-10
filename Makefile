@@ -1,5 +1,5 @@
 CXX ?= g++
-CXXFLAGS ?= -std=c++17 -Wall -Wextra -Wpedantic -Wconversion
+CXXFLAGS ?= -std=c++17 -Wall -Wextra -Wpedantic -Wconversion -O3
 LDFLAGS ?= 
 
 PREFIX ?= 
