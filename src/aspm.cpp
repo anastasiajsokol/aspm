@@ -1,9 +1,10 @@
 #include <cstdlib>
 #include <cstdio>
 
+#include "utils/logger.hpp"
 #include "utils/exit.hpp"
 
 int main(void){
-    std::puts("hello from aspm!");
+    utils::Logger::print("hello world from aspm!\n");
     return utils::exit::SUCCESS;
 }

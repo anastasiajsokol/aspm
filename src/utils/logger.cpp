@@ -1,74 +1,78 @@
 #include "logger.hpp"
 
+#include <libintl.h>
 #include <syslog.h>
+#include <stdarg.h>
 #include <cstdio>
 
-using utils::Logger, utils::LogLevel;
+using utils::Logger;
 
-void Logger::log(LogLevel level, const char* caller, const char *message){
-    // only print to console if we are within the baseline
-    if(level >= baseline){
-        // log level strings
-        const char *levelstr[] = {
-            " [DEBUG] ",
-            " ",
-            " [NOTICE] ",
-            " [WARNING] ",
-            " [ERROR] ",
-            " [ALERT] ",
-            " [EMERGENCY] ",
-        };
-
-        // pick stdout or stderr depending on severity
-        FILE *console = (level == LogLevel::Verbose) ? stdout : stderr;
-
-        // print log output
-        //  - there is no real benefit in checking if this failed
-        std::fprintf(console, "aspm:%s(%s) %s\n", levelstr[static_cast<unsigned>(level)], caller, message);
-    }
-    
-    if(log_to_system){
-        // also output to syslog to proper priority set
-        //  - verbose is mapped to info
-        const int priority[] = {
-            LOG_DEBUG,
-            LOG_INFO,
-            LOG_NOTICE,
-            LOG_WARNING,
-            LOG_ERR,
-            LOG_ALERT,
-            LOG_EMERG,
-        };
-
-        // write to syslog
-        syslog(priority[static_cast<unsigned>(level)], "(%s) %s", caller, message);
+void Logger::verbose(zstring format, ...){
+    if(verbosity == Logger::Verbosity::Verbose){
+        va_list args;
+        va_start(args, format);
+        std::fputs("aspm: ", stdout);
+        std::vprintf(format, args);
+        std::putc('\n', stdout);
+        va_end(args);
     }
 }
 
-void Logger::set_log_display_level(LogLevel level){
-    // WARNING: not thread safe, of course
-    baseline = level;
+void Logger::warning(zstring format, ...){
+    if(verbosity != Logger::Verbosity::Silent){
+        va_list args;
+        va_start(args, format);
+        std::fprintf(stderr, "aspm: (%s) ", gettext("warning"));
+        std::vfprintf(stderr, format, args);
+        std::putc('\n', stderr);
+        va_end(args);
+
+        if(system_logging){
+            va_start(args, format);
+            vsyslog(LOG_WARNING, format, args);
+            va_end(args);
+        }
+    }
+}
+
+void Logger::error(zstring format, ...){
+    if(verbosity != Logger::Verbosity::Silent){
+        va_list args;
+        va_start(args, format);
+        std::fprintf(stderr, "aspm: (%s) ", gettext("error"));
+        std::vfprintf(stderr, format, args);
+        std::putc('\n', stderr);
+        va_end(args);
+
+        if(system_logging){
+            va_start(args, format);
+            vsyslog(LOG_ERR, format, args);
+            va_end(args);
+        }
+    }
+}
+
+void Logger::print(zstring format, ...){
+    if(verbosity != Logger::Verbosity::Silent){
+        va_list args;
+        va_start(args, format);
+        std::vprintf(format, args);
+        va_end(args);
+    }
 }
 
 void Logger::enable_system_logging(){
-    static bool system_log_is_open = false;
+    if(!system_logging){
+        // open the logging handle with
+        //      name: aspm
+        //      flags: fallback to console, open now (before chroot!)
+        //      facility: user program
+        openlog("aspm", LOG_CONS | LOG_NDELAY, LOG_USER);
 
-    if(!system_log_is_open){
-        // prevent the log from being openned again
-        // WARNING: not thread safe, of course
-        system_log_is_open = true;
-        
-        // open the log
-        //  - set application name to aspm (A Source Package Manager)
-        //  - open it now so that we do not fail to open it in chroot later
-        //  - open as a normal user process
-        openlog("aspm", LOG_NDELAY, LOG_USER);
+        system_logging = true;
     }
-
-    // WARNING: not thread safe, of course
-    log_to_system = true;
 }
 
-void Logger::disable_system_logging(){
-    log_to_system = false;
+void Logger::set_verbosity(Logger::Verbosity value){
+    verbosity = value;
 }

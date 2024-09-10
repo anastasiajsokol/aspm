@@ -6,37 +6,29 @@
 
 namespace utils {
 
-enum class LogLevel {
-    Debug,
-    Verbose,
-    Notice,
-    Warning,
-    Error,
-    Alert,
-    Emergency,
-};
+using zstring = const char*;
 
-class Logger {
-    private:
-        // baseline console log level
-        inline static LogLevel baseline = LogLevel::Notice;
-
-        // whether or not syslog should be called
-        inline static bool log_to_system = false;
-        
+class Logger {        
     public:
-        // general purpose log function
-        static void log(LogLevel level, const char* caller, const char *message);
+        static void verbose(zstring format, ...);
+        static void warning(zstring format, ...);
+        static void error(zstring format, ...);
 
-        // set private baseline variable
-        static void set_log_display_level(LogLevel);
+        static void print(zstring format, ...);
 
-        // turn on system logging
-        // WARNING: must be called before chroot
         static void enable_system_logging();
+        
+        enum class Verbosity {
+            Silent,
+            Brief,
+            Verbose
+        };
 
-        // turn off system logging
-        static void disable_system_logging();
+        static void set_verbosity(Verbosity);
+
+    private:
+        inline static Verbosity verbosity = Verbosity::Brief;
+        inline static bool system_logging = false;
 };
 
 };

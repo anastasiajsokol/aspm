@@ -21,7 +21,7 @@ std::optional<path> utils::create_temporary_directory(path base){
     strcpy(directory, templatestring.c_str());
 
     if(mkdtemp(directory) == NULL){
-        utils::Logger::log(utils::LogLevel::Error, "tmpdir", std::strerror(errno));
+        utils::Logger::error("failed to make temporary directory [%d %s]", errno, std::strerror(errno));
         return {};
     }
     
@@ -41,7 +41,7 @@ int utils::delete_directory(path directory){
 
         // change the permissions to allow read/write from owner
         if(chmod(fpath, S_IRUSR | S_IRUSR)){
-            utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
+            utils::Logger::error("failed to change permissions [%d %s]", errno, std::strerror(errno));
         }
 
         // note: returning FTW_CONTINUE is not really needed unless FTW_ACTIONRETVAL is set
@@ -55,7 +55,7 @@ int utils::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(unlink(fpath)){
-                    utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
+                    utils::Logger::error("failed to delete directory [%d %s]", errno, std::strerror(errno));
                 }
 
                 break;
@@ -65,7 +65,7 @@ int utils::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(rmdir(fpath)){
-                    utils::Logger::log(utils::LogLevel::Error, "deldir", std::strerror(errno));
+                    utils::Logger::error("failed to delete file [%d %s]", errno, std::strerror(errno));
                 }
 
                 break;
