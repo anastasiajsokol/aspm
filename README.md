@@ -9,15 +9,15 @@ Any flag will be overwritten by the corresponding environment variable or by con
 
 `-v`, `--verbose`
 
-Show additional information about the steps the program is taking. Should be combined with any other command. The environment variable overwrites the flag option. Can be overwritten by `ASPMVERBOSE=[true|verbose]`.
+Show additional information about the steps the program is taking. Should be combined with any other command. The environment variable overwrites the flag option. Can be overwritten by `ASPM_VERBOSITY=verbose`.
 
 `--brief` (default)
 
-Show the default amount of information. Overwritten by `ASPMVERBOSE=brief`.
+Show the default amount of information. Overwritten by `ASPM_VERBOSITY=brief`.
 
 `--silent`
 
-Do not output anything to the console or logs. Can be overwritten by `ASPMVERBOSE=silent`.
+Do not output anything to the console or logs. Can be overwritten by `ASPM_VERBOSITY=silent`.
 
 `--safe` | `--unsafe`
 
