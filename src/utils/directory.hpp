@@ -26,6 +26,17 @@ std::optional<path> create_temporary_directory(path base = "/tmp");
 **/
 exit_type delete_directory(path directory);
 
+/**
+ *  Attempts to create an overlay mount using the provided directories
+ * 
+ *  @param merge directory to mount into the overlay
+ *  @param upper this is the directory that will contain any modifications
+ *  @param lower this is the directory that is "simulated" or overlayed
+ *  @param work may be used to store temporary state
+ *  @return aspm standard exit_type
+**/
+exit_type create_overlay(path merge, path upper, path lower, path work);
+
 };
 
 #endif

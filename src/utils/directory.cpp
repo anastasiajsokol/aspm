@@ -1,5 +1,6 @@
 #include "directory.hpp"
 
+#include <sys/mount.h>
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
@@ -9,6 +10,7 @@
 #include "logger.hpp"
 #include "exit.hpp"
 
+using zstring = const char*;
 using utils::path;
 
 std::optional<path> utils::create_temporary_directory(path base){
@@ -22,6 +24,7 @@ std::optional<path> utils::create_temporary_directory(path base){
     strcpy(directory, templatestring.c_str());
 
     if(mkdtemp(directory) == NULL){
+        // TODO: internationalize message
         utils::Logger::error("failed to make temporary directory [%d %s]", errno, std::strerror(errno));
         return {};
     }
@@ -44,6 +47,7 @@ utils::exit_type utils::delete_directory(path directory){
 
         // change the permissions to allow read/write from owner
         if(chmod(fpath, S_IRUSR | S_IRUSR)){
+            // TODO: internationalize message
             utils::Logger::error("failed to change permissions [%d %s]", errno, std::strerror(errno));
         }
 
@@ -58,6 +62,7 @@ utils::exit_type utils::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(unlink(fpath)){
+                    // TODO: internationalize message
                     utils::Logger::error("failed to delete directory [%d %s]", errno, std::strerror(errno));
                 }
 
@@ -68,6 +73,7 @@ utils::exit_type utils::delete_directory(path directory){
                 // try to delete
                 // fail is ok ish
                 if(rmdir(fpath)){
+                    // TODO: internationalize message
                     utils::Logger::error("failed to delete file [%d %s]", errno, std::strerror(errno));
                 }
 
@@ -93,4 +99,28 @@ utils::exit_type utils::delete_directory(path directory){
 
     // TODO: better return error code
     return errno ? exit::FAILURE : exit::SUCCESS;
+}
+
+utils::exit_type utils::create_overlay(path merge, path upper, path lower, path work){
+    std::string payload =
+        "lowerdir=" + lower.string() +
+        ",upperdir=" + upper.string() + 
+        ",workdir=" + work.string();
+
+    const zstring filetype = "overlay";
+    const zstring device = "overlay";
+
+    if(mount(device, merge.c_str(), filetype, 0, payload.c_str())){
+        // TODO: internationalize message
+        Logger::error("failed to create overlay mount [%d %s]", errno, std::strerror(errno));
+        
+        // TODO: add more error returns
+        if(errno == EACCES){
+            return exit::INSUFFICENT_PERMISSIONS;
+        }
+
+        return exit::FAILURE;
+    }
+
+    return exit::SUCCESS;
 }
