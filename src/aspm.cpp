@@ -5,5 +5,5 @@
 
 int main(void){
     std::puts("hello from aspm!");
-    return unwrap(utils::Exit::Success);
+    return utils::exit::SUCCESS;
 }

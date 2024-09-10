@@ -3,16 +3,14 @@
 
 namespace utils {
 
-enum class Exit : unsigned char {
-    Success = 0,
-    Failure = 1,
-    InvalidArguments = 2,
-    InsufficentPermissions = 3,
-};
+namespace exit {
 
-inline unsigned char unwrap(Exit code){
-    return static_cast<unsigned char>(code);
-}
+constexpr unsigned char SUCCESS = 0;
+constexpr unsigned char FAILURE = 1;
+constexpr unsigned char INVALID_ARGUMENTS = 2;
+constexpr unsigned char INSUFFICENT_PERMISSIONS = 3;
+
+};
 
 };
 
