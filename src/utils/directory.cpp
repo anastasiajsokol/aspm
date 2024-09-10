@@ -7,6 +7,7 @@
 #include <ftw.h>
 
 #include "logger.hpp"
+#include "exit.hpp"
 
 using utils::path;
 
@@ -30,7 +31,9 @@ std::optional<path> utils::create_temporary_directory(path base){
     return result;
 }
 
-int utils::delete_directory(path directory){
+utils::exit_type utils::delete_directory(path directory){
+    errno = 0;
+
     const auto update_permissions = [](const char *fpath, const struct stat*, int, FTW*) -> int {
         // take ownership of the file
         if(chown(fpath, getuid(), getgid())){
@@ -78,13 +81,16 @@ int utils::delete_directory(path directory){
 
     // update all permissions (pre order, ignore mounts, do not follow symlinks)
     if(nftw(directory.c_str(), update_permissions, -1, FTW_MOUNT | FTW_PHYS)){
-        return -1;
+        // TODO: better return error code
+        return exit::FAILURE;
     }
 
     // delete all files and directories (post order, ignore mounts, do not follow symlinks)
     if(nftw(directory.c_str(), delete_path, -1, FTW_DEPTH | FTW_MOUNT | FTW_PHYS)){
-        return -1;
+        // TODO: better return error code
+        return exit::FAILURE;
     }
 
-    return errno ? -1 : 0;
+    // TODO: better return error code
+    return errno ? exit::FAILURE : exit::SUCCESS;
 }
