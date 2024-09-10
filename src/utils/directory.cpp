@@ -31,6 +31,9 @@ std::optional<path> utils::create_temporary_directory(path base){
     
     path result = directory;
     delete[] directory;
+
+    utils::Logger::verbose("created temporary directory %s", result.c_str());
+
     return result;
 }
 
@@ -88,13 +91,20 @@ utils::exit_type utils::delete_directory(path directory){
     // update all permissions (pre order, ignore mounts, do not follow symlinks)
     if(nftw(directory.c_str(), update_permissions, -1, FTW_MOUNT | FTW_PHYS)){
         // TODO: better return error code
+        // TODO: figure out error and log it
         return exit::FAILURE;
     }
 
     // delete all files and directories (post order, ignore mounts, do not follow symlinks)
     if(nftw(directory.c_str(), delete_path, -1, FTW_DEPTH | FTW_MOUNT | FTW_PHYS)){
         // TODO: better return error code
+        // TODO: figure out error and log it
         return exit::FAILURE;
+    }
+
+    // TODO: is this an adequate check?
+    if(!errno){
+        Logger::verbose("removed directory %s", directory.c_str());
     }
 
     // TODO: better return error code
@@ -121,6 +131,8 @@ utils::exit_type utils::create_overlay(path merge, path upper, path lower, path 
 
         return exit::FAILURE;
     }
+
+    Logger::verbose("created an overlay mount over %s at %s", lower.c_str(), merge.c_str());
 
     return exit::SUCCESS;
 }
