@@ -3,18 +3,28 @@
 
 #include <filesystem>
 #include <optional>
-#include <cerrno>
+
+#include "exit.hpp"
 
 namespace utils {
 
 using path = std::filesystem::path;
 
-// attempts to create a temporary directory in the provided base directory
+/**
+ *  Attempts to create a temporary directory in the provided base directory
+ * 
+ *  @param base path to prefered temporary directory (default = /tmp)
+ *  @return path to the new directory if successful
+**/
 std::optional<path> create_temporary_directory(path base = "/tmp");
 
-// attempts to delete the directory at the provided path
-// on success returns zero, on failure returns -1
-int delete_directory(path);
+/**
+ *  Attempts to delete the directory at the provided path
+ *  
+ *  @param directory path to the directory that should be deleted
+ *  @return aspm exit_type (see exit.hpp)
+**/
+exit_type delete_directory(path directory);
 
 };
 
