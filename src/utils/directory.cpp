@@ -25,14 +25,14 @@ std::optional<path> utils::create_temporary_directory(path base){
 
     if(mkdtemp(directory) == NULL){
         // TODO: internationalize message
-        utils::Logger::error("failed to make temporary directory [%d %s]", errno, std::strerror(errno));
+        Logger::error("failed to make temporary directory [%d %s]", errno, std::strerror(errno));
         return {};
     }
     
     path result = directory;
     delete[] directory;
 
-    utils::Logger::verbose("created temporary directory %s", result.c_str());
+    Logger::verbose("created temporary directory %s", result.c_str());
 
     return result;
 }
@@ -51,7 +51,7 @@ utils::exit_type utils::delete_directory(path directory){
         // change the permissions to allow read/write from owner
         if(chmod(fpath, S_IRUSR | S_IRUSR)){
             // TODO: internationalize message
-            utils::Logger::error("failed to change permissions [%d %s]", errno, std::strerror(errno));
+            Logger::error("failed to change permissions [%d %s]", errno, std::strerror(errno));
         }
 
         // note: returning FTW_CONTINUE is not really needed unless FTW_ACTIONRETVAL is set
@@ -66,7 +66,7 @@ utils::exit_type utils::delete_directory(path directory){
                 // fail is ok ish
                 if(unlink(fpath)){
                     // TODO: internationalize message
-                    utils::Logger::error("failed to delete directory [%d %s]", errno, std::strerror(errno));
+                    Logger::error("failed to delete directory [%d %s]", errno, std::strerror(errno));
                 }
 
                 break;
@@ -77,7 +77,7 @@ utils::exit_type utils::delete_directory(path directory){
                 // fail is ok ish
                 if(rmdir(fpath)){
                     // TODO: internationalize message
-                    utils::Logger::error("failed to delete file [%d %s]", errno, std::strerror(errno));
+                    Logger::error("failed to delete file [%d %s]", errno, std::strerror(errno));
                 }
 
                 break;
